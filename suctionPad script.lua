@@ -1,5 +1,22 @@
 function sysCall_init() 
-    --[[just replace the code, and remeber to check the name for dummy/sensoor/link s' name is c]]
+    --this is made by Blinhy0131
+    objectHandle=sim.getObjectHandle('suctionPad')
+    sim.setUserParameter(objectHandle,'@enable','')
+    modelBase=sim.getObjectAssociatedWithScript(sim.handle_self)
+    robotBase=modelBase
+    while true do
+        robotBase=sim.getObjectParent(robotBase)
+        if robotBase==-1 then
+            robotName='Dobot'
+            break
+        end
+        robotName=sim.getObjectName(robotBase)
+        suffix,suffixlessName=sim.getNameSuffix(robotName)
+        if suffixlessName=='Dobot' then
+            break
+        end
+    end
+
     s=sim.getObjectHandle('suctionPadSensor')
     l=sim.getObjectHandle('suctionPadLoopClosureDummy1')
     l2=sim.getObjectHandle('suctionPadLoopClosureDummy2')
@@ -19,6 +36,7 @@ function sysCall_init()
 end
 
 function sysCall_cleanup() 
+    --this is made by Blinhy0131
     sim.setLinkDummy(l,-1)
     sim.setObjectParent(l,b,true)
     m=sim.getObjectMatrix(l2,-1)
@@ -27,6 +45,7 @@ end
 
 function sysCall_sensing() 
     parent=sim.getObjectParent(l)
+    --this is made by Blinhy0131
     local sig=sim.getIntegerSignal("pad_switch")
     if (not sig) or (sig==0) then
         if (parent~=b) then
@@ -82,3 +101,4 @@ function sysCall_sensing()
         end
     end
 end 
+--by Blinhy0131
